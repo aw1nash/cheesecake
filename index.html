@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Popup</title>
+  <!-- Import Archivo Black font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #ff69b4;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ff1493;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      position: relative;
+      background: #111;
+      padding: 30px 50px;
+      border-radius: 15px;
+      text-align: center;
+      animation: fadeIn 0.3s ease-in-out;
+      max-width: 600px;
+      width: 90%;
+      overflow-y: auto;
+      max-height: 80vh;
+    }
+    #quote {
+      font-size: 18px;
+      color: #fff;
+      font-family: 'Archivo Black', sans-serif;
+      line-height: 1.6;
+      white-space: pre-line;
+      text-align: center;
+      background: none;
+      box-shadow: none;
+    }
+    #quote a {
+      color: #ff69b4;
+      text-decoration: none;
+    }
+    #quote a:hover {
+      text-decoration: underline;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+    .close:hover {
+      color: #ff69b4;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.8); }
+    }
+    .modal.hide {
+      animation: fadeOut 0.3s forwards;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="showQuote()">MEOW CHEESECAKE 🐾</button>
+
+  <div id="quoteModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeQuote()">&times;</span>
+      <div id="quote"></div>
+    </div>
+  </div>
+
+  <script>
+    const quotes = [
+      "i wanna see your perfect body right beside me, baby",
+      "Baby, you're all I need",
+      "I'll always love you until the time we die",
+      "kaise ye din, kaisee ye raat hai\nbas main aur tum is pal mein saath hain",
+      "I wanna be lost in you",
+      "care for you still, and I will and i will forever",
+      "You know I got a soft spot for you",
+      "Baby, can't you see? I need you 'cause you're everything that I'm not",
+      "I've dreamt about you nearly every night this week",
+      "Maybe I'm too busy being yours to fall for somebody new",
+      "Never thought I'd find you, but you're here, and so I love you",
+      "I only see your face when I close my eyes",
+      "Home is wherever I'm with you",
+      "Man, oh man, you're my best friend",
+      "No one loves me like you do",
+      "Since I met you all the gloomy days just seem to shine a little more brightly",
+      "Cause I been thinkin bout forever",
+      "You know you were my first time, a new feel",
+      "Giving you all my love\nAll my love",
+      "Touch me with a kiss, feel me on your lips",
+      "When you're far away I still feel it all the same",
+      "Ab din tere, to meri raatein hain\nMeri chaandni kin door ho?",
+      "Meri shayari ho sirf tum",
+      "Mujhe bhool na jaana tum",
+      "You are all I long for\nAll I worship and adore\nIn other words, please, be true\nIn other words, I love you",
+      "And when you go away, I still see you",
+      "I wanna hear your voice",
+      "I wish I could live without you but you're a part of me",
+      "We get married in our heads",
+      "Do you think I have forgotten? ABOUT YOU",
+      "I hope that we'll find our way back in the end",
+      "I don't care how long it takes\nAs long as I'm with you\nI've got a smile on my face",
+      "Save your tears, it'll be okay\nAll I know is you're here with me",
+      "Kabhi-kabhi sochtha hoon\nTeri aankhon se sachcha kuch dekha hee nahin",
+      "Tuutate thaaron se tuje maanga tha",
+      "Pakke dil se tuje pukaaraa tha",
+      "Kithne phool dekhe maine\nTere jesaa koyi mahakaa hee nahi",
+      "Tere saath saba kuch itana aasaan kaise hai?",
+      "Muje apana ghar mil jaataa hai tujh mein",
+      "I remember when I first noticed that you liked me back",
+      "I like you best when you're just with me and no one else",
+      "I'm kissing you, lying in my room  Holding you until you fall asleep",
+      "Nothing's gonna hurt you baby, as long as you're with me, you'll be safe and sound",
+      "When you're all alone, I will reach for you",
+      "When you're feeling low, I will be there too",
+      "I get to share all my secrets with you, I do",
+      "I'm in love with you",
+      "Every night I'm thinking of you",
+      "You're a sweet thing",
+      "And each time you fall in love, you never know what it's worth",
+      "You're All I Want",
+      "There is no other love, it's only yours"
+    ];
+
+    function showQuote() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById("quote").innerHTML = `<a href="https://example.com/lyrics?text=${encodeURIComponent(quote)}" target="_blank">${quote}</a>`;
+      document.getElementById("quoteModal").style.display = "flex";
+    }
+
+    function closeQuote() {
+      const modal = document.getElementById("quoteModal");
+      modal.classList.add("hide");
+      setTimeout(() => {
+        modal.style.display = "none";
+        modal.classList.remove("hide");
+      }, 300);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === "Escape") closeQuote();
+    });
+  </script>
+</body>
+</html>
